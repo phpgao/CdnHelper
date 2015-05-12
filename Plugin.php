@@ -20,6 +20,7 @@ class CdnHelper_Plugin implements Typecho_Plugin_Interface
     public static function activate()
     {
         Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('CdnHelper_Plugin', 'replace');
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('CdnHelper_Plugin', 'replace');
     }
 
     /**
