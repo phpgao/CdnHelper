@@ -71,6 +71,7 @@ class CdnHelper_Plugin implements Typecho_Plugin_Interface
         $options = Helper::options()->plugin('CdnHelper');
         $pattern = '#(<img\s+src=")(' . $options->domain .')([^<]*?/>)#i';
         $replacement = '${1}' . $options->cdn . '${3}';
-        return @preg_replace($pattern, $replacement, $string);
+        $html_string = is_null($string) ? $content : $string;
+        return @preg_replace($pattern, $replacement, $html_string);
     }
 }
