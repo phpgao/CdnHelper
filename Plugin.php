@@ -74,7 +74,7 @@ class CdnHelper_Plugin implements Typecho_Plugin_Interface
 
         class_exists('simple_html_dom') || require_once 'simple_html_dom.php';
 
-        $html = str_get_html($html_string);
+        $html = $html = str_get_html($html_string, 1, 1, 'UTF-8', false);
         $imgs = $html->find('img');
         if( count($imgs) == 0){
             return $html_string;
