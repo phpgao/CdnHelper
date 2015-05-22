@@ -68,10 +68,22 @@ class CdnHelper_Plugin implements Typecho_Plugin_Interface
      */
     public static function replace($content, $class, $string)
     {
-        $options = Helper::options()->plugin('CdnHelper');
-        $pattern = '#(<img\s+src=")(' . $options->domain .')([^<]*?/>)#i';
-        $replacement = '${1}' . $options->cdn . '${3}';
+        $options = Helper::options()->plugin(str_replace('_Plugin','',__CLASS__));
+
         $html_string = is_null($string) ? $content : $string;
-        return @preg_replace($pattern, $replacement, $html_string);
+
+        class_exists('simple_html_dom') || require_once 'simple_html_dom.php';
+
+        $html = str_get_html($html_string);
+        $imgs = $html->find('img');
+        if( count($imgs) == 0){
+            return $html_string;
+        }
+
+        foreach($imgs as $img){
+            $img->src = str_replace($options->domain, $options->cdn, $img->src);
+        }
+
+        return $html->save();
     }
 }
