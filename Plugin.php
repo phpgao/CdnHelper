@@ -64,7 +64,7 @@ class CdnHelper_Plugin implements Typecho_Plugin_Interface
      * 插件实现方法
      *
      * @access public
-     * @return void
+     * @return string
      */
     public static function replace($content, $class, $string)
     {
@@ -81,7 +81,8 @@ class CdnHelper_Plugin implements Typecho_Plugin_Interface
         }
 
         foreach($imgs as $img){
-            $img->src = str_replace($options->domain, $options->cdn, $img->src);
+            @$img->src = str_replace($options->domain, $options->cdn, $img->src);
+            @$img->{'data-url'} = str_replace($options->domain, $options->cdn, $img->{'data-url'});
         }
 
         return $html->save();
